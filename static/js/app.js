@@ -131,7 +131,39 @@ let lastWarning = null;
 window.addEventListener('DOMContentLoaded', () => {
     loadNotes();
     setupEventListeners();
+    setupThemeToggle();
 });
+
+function setupThemeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const iconMoon = document.getElementById('theme-icon-moon');
+    const iconSun = document.getElementById('theme-icon-sun');
+    const html = document.documentElement;
+
+    // Restore saved preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+        html.setAttribute('data-theme', 'light');
+        iconMoon.classList.add('hidden');
+        iconSun.classList.remove('hidden');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const isLight = html.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            html.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'dark');
+            iconMoon.classList.remove('hidden');
+            iconSun.classList.add('hidden');
+        } else {
+            html.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            iconMoon.classList.add('hidden');
+            iconSun.classList.remove('hidden');
+        }
+    });
+}
+
 
 function setupEventListeners() {
     // Refresh action
